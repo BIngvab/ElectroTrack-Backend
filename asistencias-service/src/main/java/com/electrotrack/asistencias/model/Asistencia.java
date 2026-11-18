@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 
 @Entity
 public class Asistencia {
@@ -16,6 +17,9 @@ public class Asistencia {
     private String fechaHora;
     private Double latitud;
     private Double longitud;
+
+    @Column(unique = true)
+    private String uuid;
 
 
     public Asistencia() {
@@ -92,5 +96,18 @@ public class Asistencia {
         this.longitud = longitud;
         
     }
+
+
+    public String getUuid() {
+        return uuid;
+
+    }
+
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+
+    }
+
 
 }
