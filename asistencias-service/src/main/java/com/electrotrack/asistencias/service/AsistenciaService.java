@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class AsistenciaService {
+
     private final AsistenciaRepository asistenciaRepository;
 
 
@@ -22,9 +23,16 @@ public class AsistenciaService {
 
     }
 
-    
+
     public Asistencia registrarAsistencia(Asistencia asistencia) {
-        return asistenciaRepository.save(asistencia);
+
+        if (asistencia.getUuid() == null || asistencia.getUuid().isBlank()) {
+            throw new IllegalArgumentException("El UUID es obligatorio");
+
+        }
+
+        return asistenciaRepository.findByUuid(asistencia.getUuid())
+            .orElseGet(() -> asistenciaRepository.save(asistencia));
 
     }
 
