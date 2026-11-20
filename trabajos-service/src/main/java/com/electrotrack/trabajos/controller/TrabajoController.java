@@ -52,4 +52,13 @@ public class TrabajoController {
         return trabajoService.actualizarEstado(id, estado);
 
     }
+
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarTrabajo(@PathVariable Long id) {
+
+        trabajoService.eliminarTrabajo(id);
+
+        return ResponseEntity.noContent().build();
+    }    
 }

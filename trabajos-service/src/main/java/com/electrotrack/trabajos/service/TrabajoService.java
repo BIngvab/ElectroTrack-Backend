@@ -56,4 +56,16 @@ public class TrabajoService {
         return trabajoRepository.save(trabajo);
 
     }
+
+    public void eliminarTrabajo(Long id) {
+
+    if (!trabajoRepository.existsById(id)) {
+        throw new IllegalArgumentException("Trabajo no encontrado");
+
+    }
+
+    trabajoRepository.deleteById(id);
+
+    }
+
 }
