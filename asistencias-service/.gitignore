@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### ponele que bd ###
+DB_PASSWORD=CalaveraLoca123

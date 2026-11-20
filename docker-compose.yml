@@ -1,0 +1,56 @@
+services:
+  postgres-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Configura DB_PASSWORD en el archivo .env}
+      POSTGRES_DB: postgres
+    volumes:
+      - electrotrack_postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+    networks:
+      - electrotrack-network
+
+  asistencias-service:
+    build:
+      context: ./asistencias-service
+    restart: unless-stopped
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD:?Configura DB_PASSWORD en el archivo .env}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/electrotrack_asistencias
+      SPRING_DATASOURCE_USERNAME: postgres
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    networks:
+      - electrotrack-network
+
+  trabajos-service:
+    build:
+      context: ./trabajos-service
+    restart: unless-stopped
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD:?Configura DB_PASSWORD en el archivo .env}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/electrotrack_trabajos
+      SPRING_DATASOURCE_USERNAME: postgres
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    networks:
+      - electrotrack-network
+
+volumes:
+  electrotrack_postgres_data:
+
+networks:
+  electrotrack-network:

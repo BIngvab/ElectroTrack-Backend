@@ -9,6 +9,16 @@
             "projectName": "asistencias-service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-TrabajosServiceApplication<trabajos-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.electrotrack.trabajos.TrabajosServiceApplication",
+            "projectName": "trabajos-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
